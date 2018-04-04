@@ -1,4 +1,5 @@
 
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -6,38 +7,42 @@
     <!-- <link href="style.css" rel="stylesheet" type="text/css"> -->
     <title>Submit Form</title>
 </head>
+
 <body>
     <form>
         Username:
-        <input id="us" type="text" name="name" placeholder="5 characters or more"/> <br>
+        <input id="us" type="text"  placeholder="5 characters or more"> <br>
         Email: 
-        <input id="em" type="email" name="mail" placeholder="yourname@email.com"/> <br>
+        <input id="em" type="email"  placeholder="yourname@email.com"> <br>
         Password:
-        <input id="ps" type="password" placeholder="6 characters or more" name="pas"> <br>
+        <input id="ps" type="password" placeholder="6 characters or more"> <br>
         Repeat password:
-        <input id="rps" type="password" placeholder="enter the password again" name="pasRep"> <br>
+        <input id="rps" type="password" placeholder="enter the password again"> <br>
         phone Number:
-        <input id="ph" type="tel" name="phone"/> <br>
+        <input id="ph" type="tel"> <br>
         Country:
-        <input id="cn" type="text"/> <br>
-        <button id="sub" type="submit" onclick="submitForm()">Submit</button>
-        <div id="msg" style="color:green"></div>
+        <input id="cn" type="text"> <br>
+        <button type="submit" onclick="submitForm();"> Submit </button>
         
-        <ul id = "errorslist" style="color:red;"></ul> 
+        <div id="msg" style="color: green;"> </div>
+        
+        <ul id = "errorslist" style="color: red;"> </ul> 
     </form>
 
     <script type="text/javascript">
         var listErr = document.getElementById("errorslist");
         //debugger;
         //check if the id is appear in the error list
+        
         var checkID = function (id) 
         {
-            for (var i = 0; i <= listErr.childNodes.length; i++) 
+            for (var i = 1; i < listErr.childNodes.length; i++) 
             {
+                //console.log(listErr.childNodes[0]);
+                //console.log(listErr.childNodes[i]);
                 
                 if (listErr.childNodes[i].id === id)
                 {   
-                    
                     return true; // the id exist in list so don't need to put it again
                 }
             }
@@ -48,9 +53,9 @@
         //instead of displaying just a single error, list them all.
         //6) Display the error messages in a red font.
         //appendItem to li Tag 
-        var appendItem = function (mesEror, idItem) 
+        var appendItem = function (mesError, idItem) 
         {
-            var nodetext  = document.createTextNode(mesEror);
+            var nodetext  = document.createTextNode(mesError);
             var item = document.createElement('li'); //new HTML li Tag
             item.setAttribute("id",idItem); //make id Attribute and the name is idItem -> in the li Tag
             item.appendChild(nodetext); //put the message in the li Tag
@@ -64,7 +69,7 @@
             listErr.removeChild(temp);
         }
 
-        function submitForm () 
+        var submitForm = function() 
         {
             //var usr = document.getElementById("us").value;
             //var e = document.getElementById("em").value;  part A
@@ -120,14 +125,14 @@
 
             // 1) Check the password is at least 6 characters long.
             //    If not, write to the msg div as we did with the username.
-            var pas = getElementById("ps").value;
+            var pas = document.getElementById("ps").value;
             var p_id = "pas_id";
             flag = checkID(p_id);
             if(pas.length < 6) //if the length is small then 6 then...
             {
                 if(!flag) //if "pas_id" is NOT exist,put in the error list
                 {
-                    appendItem("The password is to short, try again using 6 or more characters", pas)
+                    appendItem("The password is to short, try again using 6 or more characters", p_id);
                 }
             }
 
@@ -162,11 +167,12 @@
                 {
                     appendItem("the country to be either Israel or usa",country_id);
                 }
-                else if(flag)
-                {
-                    clearID(country_id); //if the "country_id" exist, delete him for the next name
-                }
             }
+            else if(flag)
+            {
+                clearID(country_id); //if the "country_id" exist, delete him for the next name
+            }
+            
 
             //4) Add code to validate that the phone number is shorter than 15 digits and if not....
             var phone = document.getElementById("ph").value;
@@ -176,19 +182,20 @@
             {
                 if(!flag)
                 {
-                    appendItem("the phone number is longer than 15 digits",phone_id)
-                }
-                else if(flag)
-                {
-                    clearID(phone_id); //if the "phone_id" exist, delete him for the next name
+                    appendItem("the phone number is longer than 15 digits",phone_id);
                 }
             }
+            else if(flag)
+            {
+                clearID(phone_id); //if the "phone_id" exist, delete him for the next name
+            }
+            
 
             //5) If there is more than one 'error' then,
             //   instead of displaying just a single error, list them all.
             //7) If there are no errors,
             //   don't alert the user, display a personal greeting message in a green font.
-            if(listErr.childNodes.length == 0)
+            if(listErr.childNodes.length-1 == 0)
             {
                 var div_msg = document.getElementById("msg");
                 div_msg.innerHTML = "All the details good!"; 
